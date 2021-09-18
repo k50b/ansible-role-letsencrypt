@@ -20,7 +20,6 @@ Example Playbook
 
     - hosts: servers
       roles:
-        - { role: username.rolename, x: 42 }
         - role: mr_class.letsencrypt
           vars:
             letsencrypt_email: hello@example.com

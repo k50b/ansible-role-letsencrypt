@@ -1,0 +1,9 @@
+---
+letsencrypt_email: me@example.com
+letsencrypt_domains:
+  - example.com
+  - www.example.com
+letsencrypt_dry_run: true
+letsencrypt_test_cert: false
+letsencrypt_skip_run: false
+letsencrypt_webroot_dir: /var/www/html/

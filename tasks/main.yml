@@ -1,0 +1,29 @@
+---
+- name: Install certbot
+  apt:
+    name: certbot
+- name: Save the expected path of the certificate in facts
+  set_fact:
+    letsencrypt_cert_dir: '/etc/letsencrypt/live/{{ letsencrypt_domains | first }}'
+- name: Check if the certificate exists
+  stat:
+    path: '{{ letsencrypt_cert_dir }}'
+  register: cert_exists_check
+- name: Get the certificate
+  command:
+    cmd: >
+      certbot certonly
+      {{ letsencrypt_dry_run | ternary("--dry-run", "", omit) }}
+      {{ (not letsencrypt_dry_run and letsencrypt_test_cert) | ternary("--test-cert", "", omit) }}
+      --non-interactive
+      --agree-tos
+      --expand
+      --email {{ letsencrypt_email }}
+      --webroot -w {{ letsencrypt_webroot_dir }}
+      {{ letsencrypt_domains_certbot_args }}
+  changed_when:
+    - certbot_result.rc == 0
+    - "'Your certificate and chain have been saved' in certbot_result.stdout"
+  when: not cert_exists_check.stat.exists and not letsencrypt_skip_run
+  vars:
+    letsencrypt_domains_certbot_args: '{{ letsencrypt_domains | map("regex_replace","^(.*)$",''-d \1'') | join(" ") }}'

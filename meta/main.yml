@@ -1,0 +1,20 @@
+galaxy_info:
+  role_name: letsencrypt
+  author: mr_class
+  description: Gets Let's Encrypt certificate using certbot.
+
+  license: MIT
+
+  min_ansible_version: 2.1
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+
+  galaxy_tags:
+    - letsencrypt
+    - certbot
+    - ubuntu
+
+dependencies: []

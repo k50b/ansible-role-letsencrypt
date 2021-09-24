@@ -22,7 +22,7 @@
       --webroot -w {{ letsencrypt_webroot_dir }}
       {{ letsencrypt_domains_certbot_args }}
   changed_when:
-    - certbot_result.rc == 0
+    - cert_exists_check.rc == 0
     - "'Your certificate and chain have been saved' in certbot_result.stdout"
   when: not cert_exists_check.stat.exists and not letsencrypt_skip_run
   vars:

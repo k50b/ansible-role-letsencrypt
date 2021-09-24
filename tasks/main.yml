@@ -21,8 +21,9 @@
       --email {{ letsencrypt_email }}
       --webroot -w {{ letsencrypt_webroot_dir }}
       {{ letsencrypt_domains_certbot_args }}
+  register: certbot_result
   changed_when:
-    - cert_exists_check.rc == 0
+    - certbot_result.rc == 0
     - "'Your certificate and chain have been saved' in certbot_result.stdout"
   when: not cert_exists_check.stat.exists and not letsencrypt_skip_run
   vars:
